@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sign_out_menu, menu);
+        return true;
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
 
@@ -94,8 +101,13 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             currentUser = user;
             mUsername = user.getDisplayName();
+        } else {
+            startActivity(new Intent(this, SignInActivity.class));
+            finish();
         }
     }
+
+
 
 
 }
