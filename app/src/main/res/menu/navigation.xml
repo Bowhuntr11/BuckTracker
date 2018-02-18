@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_chat"
+        android:icon="@drawable/ic_chat_24dp"
+        android:title="@string/chat" />
+
+    <item
+        android:id="@+id/navigation_bucks"
+        android:icon="@drawable/ic_deer_24dp"
+        android:title="@string/bucks" />
+
+    <item
+        android:id="@+id/navigation_stands"
+        android:icon="@drawable/ic_deerstand_24dp"
+        android:title="@string/stands" />
+
+</menu>
