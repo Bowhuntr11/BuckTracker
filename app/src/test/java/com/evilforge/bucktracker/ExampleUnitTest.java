@@ -1,4 +1,4 @@
-package com.evilfoge.bucktracker;
+package com.evilforge.bucktracker;
 
 import org.junit.Test;
 

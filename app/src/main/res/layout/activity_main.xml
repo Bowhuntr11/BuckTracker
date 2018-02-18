@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.evilfoge.bucktracker.MainActivity">
+    tools:context="com.evilforge.bucktracker.MainActivity">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -14,9 +14,32 @@
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:background="?android:attr/windowBackground"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/navigation" />
 
-</android.support.constraint.ConstraintLayout>
+
+    <fragment
+        android:name="com.evilforge.bucktracker.ChatFragment"
+        android:id="@+id/chatFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="@+id/navigation" />
+
+    <fragment
+        android:name="com.evilforge.bucktracker.BucksFragment"
+        android:id="@+id/deerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="@+id/navigation" />
+
+    <fragment
+        android:name="com.evilforge.bucktracker.StandsFragment"
+        android:id="@+id/standsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="@+id/navigation" />
+
+
+    </android.support.constraint.ConstraintLayout>

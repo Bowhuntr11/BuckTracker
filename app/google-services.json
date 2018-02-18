@@ -49,6 +49,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19713070293:android:18c4718b747e9dec",
+        "android_client_info": {
+          "package_name": "com.evilforge.bucktracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19713070293-g23102gl7begcn7g2ki57p87p0gt6kev.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.evilforge.bucktracker",
+            "certificate_hash": "2bcbae99cb4279aa6d164a23361a2974585d8d0a"
+          }
+        },
+        {
+          "client_id": "19713070293-gssjedfu3hj2ma9s6vlkc8lvsg59vkmk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu9OXM2UyD_HeEp0jwyoRS7gkF8qwJ31U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19713070293-gssjedfu3hj2ma9s6vlkc8lvsg59vkmk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

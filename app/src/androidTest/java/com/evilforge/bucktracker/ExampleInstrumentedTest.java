@@ -1,4 +1,4 @@
-package com.evilfoge.bucktracker;
+package com.evilforge.bucktracker;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

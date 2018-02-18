@@ -1,4 +1,4 @@
-package com.evilfoge.bucktracker;
+package com.evilforge.bucktracker;
 
         import android.app.ProgressDialog;
         import android.support.v7.app.AppCompatActivity;
