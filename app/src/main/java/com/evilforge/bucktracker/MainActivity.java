@@ -1,17 +1,23 @@
 package com.evilforge.bucktracker;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ChatFragment.OnFragmentInteractionListener,
+        BucksFragment.OnFragmentInteractionListener,
+        StandsFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -27,20 +33,30 @@ public class MainActivity extends AppCompatActivity {
     public static final String ANONYMOUS = "anonymous";
     private static final String MESSAGE_SENT_EVENT = "message_sent";
 
+
+    private FragmentTransaction transaction;
+    private Fragment fragment;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
             switch (item.getItemId()) {
                 case R.id.navigation_chat:
-                    return true;
+                    fragment = new ChatFragment();
+                    break;
                 case R.id.navigation_bucks:
-                    return true;
+                    fragment = new BucksFragment();
+                    break;
                 case R.id.navigation_stands:
-                    return true;
+                    fragment = new StandsFragment();
+                    break;
             }
-            return false;
+            transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment, fragment).commit();
+            return true;
         }
     };
 
@@ -62,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                 mPhotoUrl = currentUser.getPhotoUrl().toString();
             }
         }
+
+        transaction = getSupportFragmentManager().beginTransaction();
+        fragment = new ChatFragment();
+        transaction.add(R.id.fragment, fragment).commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -101,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
-
+    }
 }

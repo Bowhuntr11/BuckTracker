@@ -6,7 +6,12 @@ public class Bucks {
 
     private String buckName;
     private boolean isShooter;
-    private Calendar dateSeen;
+    private Calendar lastSeen;
+
+    public Bucks(String buckName, Boolean isShooter) {
+        this.buckName = buckName;
+        this.isShooter = isShooter;
+    }
 
     public String getBuckName() {
         return buckName;
@@ -24,11 +29,11 @@ public class Bucks {
         isShooter = shooter;
     }
 
-    public Calendar getDateSeen() {
-        return dateSeen;
+    public Calendar getLastSeen() {
+        return lastSeen;
     }
 
-    public void setDateSeen(Calendar dateSeen) {
-        this.dateSeen = dateSeen;
+    public void setLastSeen(Calendar lastSeen) {
+        this.lastSeen = lastSeen;
     }
 }

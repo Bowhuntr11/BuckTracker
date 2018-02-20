@@ -1,17 +1,18 @@
 package com.evilforge.bucktracker;
 
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 
+import com.google.android.gms.location.places.Place;
 
 public class Stands {
 
     private String standName;
     private Place standPlace;
+
+    public Stands(String standName, Place standPlace) {
+        this.standName = standName;
+        this.standPlace = standPlace;
+    }
 
     public String getStandName() {
         return standName;
