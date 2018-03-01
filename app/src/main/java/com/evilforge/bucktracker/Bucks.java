@@ -1,27 +1,29 @@
 package com.evilforge.bucktracker;
 
-import java.util.ArrayList;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Bucks {
 
     private String buckName;
     private boolean isShooter;
-    private Date lastSeen;
-    private Stands lastStand;
-    private ArrayList<String> photos = new ArrayList<>();
+    private Long lastSeen;
+    private String lastStand;
+    private String[] photos;
     private String defaultPhotoURL;
-    private HashMap<Date, Stands> bucksStands = null;
+    private HashMap<String, Long> bucksStands = null;
 
 
-    public Bucks(String buckName, boolean isShooter, Date whenSeen, Stands standName, String defaultPhotoURL) {
+    public Bucks(String buckName, boolean isShooter, Long whenSeen, String standName, String defaultPhotoURL) {
         this.buckName = buckName;
-        bucksStands.put(whenSeen, standName);
         this.isShooter = isShooter;
         this.defaultPhotoURL = defaultPhotoURL;
         this.lastSeen = whenSeen;
         this.lastStand = standName;
+        bucksStands.put(standName, whenSeen);
     }
 
     public Bucks() {
@@ -43,38 +45,43 @@ public class Bucks {
         isShooter = shooter;
     }
 
-    public Date getLastSeen() {
+    public Long getLastSeen() {
         return lastSeen;
     }
 
-    public void setLastSeen(Date whenSeen, Stands standName) {
-        if(whenSeen.after(getLastSeen()) || getLastSeen() == null) {
-            this.lastSeen = whenSeen;
-            this.lastStand = standName;
-        }
+    public void setLastSeen(Long lastSeen) {
+        this.lastSeen = lastSeen;
     }
 
-    public void addPhoto(String photoURL) {
-        this.photos.add(photoURL);
+    public String getLastStand() {
+        return lastStand;
     }
 
-    public ArrayList<String> getPhotos() {
+    public void setLastStand(String lastStand) {
+        this.lastStand = lastStand;
+    }
+
+    public String[] getPhotos() {
         return photos;
     }
 
-    public void setDefaultPhotoURL(String defaultPhotoURL) {
-        this.defaultPhotoURL = defaultPhotoURL;
+    public void setPhotos(String[] photos) {
+        this.photos = photos;
     }
 
     public String getDefaultPhotoURL() {
         return defaultPhotoURL;
     }
 
-    public HashMap<Date, Stands> getBucksStands() {
+    public void setDefaultPhotoURL(String defaultPhotoURL) {
+        this.defaultPhotoURL = defaultPhotoURL;
+    }
+
+    public HashMap<String, Long> getBucksStands() {
         return bucksStands;
     }
 
-    public Stands getLastStand() {
-        return lastStand;
+    public void setBucksStands(HashMap<String, Long> bucksStands) {
+        this.bucksStands = bucksStands;
     }
 }

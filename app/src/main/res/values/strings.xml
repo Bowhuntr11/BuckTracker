@@ -44,6 +44,12 @@
     <string name="enter_username">Enter Username desired (if Registering)</string>
     <string name="shooter_buck">Shooter Buck: %1$s</string>
     <string name="enter_buck_name">Buck Name</string>
+    <string name="is_he_a_shooter">Is he a shooter?</string>
+    <string name="date_seen">Date Seen</string>
+    <string name="hint_resource">Select Stand</string>
+    <string name="upload_picture">Upload Picture</string>
+    <string name="save">Save</string>
+    <string name="image">Image</string>
 
 
 </resources>

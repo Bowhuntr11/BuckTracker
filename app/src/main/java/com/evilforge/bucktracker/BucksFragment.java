@@ -15,10 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class BucksFragment extends Fragment {
@@ -72,11 +75,19 @@ public class BucksFragment extends Fragment {
     }
 
     private void displayBucks() {
-        adapter = new FirebaseListAdapter<Bucks>(getActivity(), Bucks.class,
-                R.layout.buck_list, FirebaseDatabase.getInstance().getReference().child("bucks")) {
+
+        //Suppose you want to retrieve "chats" in your Firebase DB:
+        Query query = FirebaseDatabase.getInstance().getReference().child("bucks");
+        //The error said the constructor expected FirebaseListOptions - here you create them:
+        FirebaseListOptions<Bucks> options = new FirebaseListOptions.Builder<Bucks>()
+                .setQuery(query, Bucks.class)
+                .setLayout(R.layout.buck_list)
+                .build();
+
+        adapter = new FirebaseListAdapter<Bucks>(options) {
             @Override
             protected void populateView(View v, Bucks buck, int position) {
-                // Get references to the views of buck_list.xml
+                  // Get references to the views of buck_list.xml
                 TextView buckName = v.findViewById(R.id.buck_name);
                 TextView isBuckShooter = v.findViewById(R.id.isShooter_text);
                 TextView lastSeen = v.findViewById(R.id.last_seen);
@@ -85,8 +96,11 @@ public class BucksFragment extends Fragment {
                 buckName.setText(buck.getBuckName());
 
                 // Format the date before showing it
-                Format formatter = new SimpleDateFormat("MMM d yyyy (HH:mm)", Locale.getDefault());
-                lastSeen.setText(formatter.format(buck.getLastSeen()));
+                long val = buck.getLastSeen();
+                Date date=new Date(val);
+                SimpleDateFormat df2 = new SimpleDateFormat("MMM d yyyy (HH:mm)", Locale.getDefault());
+                String dateText = df2.format(date);
+                lastSeen.setText(dateText);
             }
         };
 

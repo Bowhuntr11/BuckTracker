@@ -15,8 +15,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 
 public class ChatFragment extends Fragment {
@@ -66,10 +68,15 @@ public class ChatFragment extends Fragment {
         });
     }
 
-    private void displayChatMessages() {
+    private void displayChatMessages() {//Suppose you want to retrieve "chats" in your Firebase DB:
+        Query query = FirebaseDatabase.getInstance().getReference().child("messages");
+        //The error said the constructor expected FirebaseListOptions - here you create them:
+        FirebaseListOptions<ChatMessage> options = new FirebaseListOptions.Builder<ChatMessage>()
+                .setQuery(query, ChatMessage.class)
+                .setLayout(R.layout.chat_messages)
+                .build();
 
-        adapter = new FirebaseListAdapter<ChatMessage>(getActivity(), ChatMessage.class,
-                R.layout.chat_messages, FirebaseDatabase.getInstance().getReference().child("messages")) {
+        adapter = new FirebaseListAdapter<ChatMessage>(options) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
                 // Get references to the views of message.xml
