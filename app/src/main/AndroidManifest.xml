@@ -20,33 +20,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name="com.evilforge.bucktracker.MainActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".MainActivity"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.evilforge.bucktracker.SignInActivity"
+            android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in" />
         <activity
-            android:name="com.evilforge.bucktracker.BaseActivity"
+            android:name=".BaseActivity"
             android:label="@string/title_activity_base" />
+        <activity
+            android:name=".NewBuck"
+            android:label="New Buck" />
 
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA6fkC1VvbhhwC0k9A1P5qi460gy5M1xRo" />
-    </application>
 
+    </application>
 
 </manifest>

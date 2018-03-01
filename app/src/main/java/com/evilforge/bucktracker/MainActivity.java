@@ -24,15 +24,6 @@ public class MainActivity extends AppCompatActivity implements ChatFragment.OnFr
     private String mUsername;
     private String mPhotoUrl;
 
-    private static final String TAG = "MainActivity";
-    public static final String MESSAGES_CHILD = "messages";
-    private static final int REQUEST_INVITE = 1;
-    private static final int REQUEST_IMAGE = 2;
-    private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
-    public static final int DEFAULT_MSG_LENGTH_LIMIT = 10;
-    public static final String ANONYMOUS = "anonymous";
-    private static final String MESSAGE_SENT_EVENT = "message_sent";
-
 
     private FragmentTransaction transaction;
     private Fragment fragment;

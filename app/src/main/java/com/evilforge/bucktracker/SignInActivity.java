@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignInActivity extends BaseActivity implements
         View.OnClickListener {
@@ -23,6 +24,7 @@ public class SignInActivity extends BaseActivity implements
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
+    private EditText mUsernameField;
     private EditText mEmailField;
     private EditText mPasswordField;
 
@@ -40,6 +42,7 @@ public class SignInActivity extends BaseActivity implements
         mDetailTextView = findViewById(R.id.detail);
         mEmailField = findViewById(R.id.field_email);
         mPasswordField = findViewById(R.id.field_password);
+        mUsernameField = findViewById(R.id.username);
 
         // Buttons
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
@@ -62,7 +65,9 @@ public class SignInActivity extends BaseActivity implements
     }
     // [END on_start_check_user]
 
-    private void createAccount(String email, String password) {
+    private void createAccount(String email, String password, final String username) {
+
+        final String newUsername = username;
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             return;
@@ -77,8 +82,14 @@ public class SignInActivity extends BaseActivity implements
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(newUsername)
+                                    .build();
+                            if (user != null) {
+                                user.updateProfile(profileUpdates);
+                            }
+                            Log.d(TAG, "createUserWithEmail:success");
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -219,7 +230,7 @@ public class SignInActivity extends BaseActivity implements
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.email_create_account_button) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), mUsernameField.getText().toString());
         } else if (i == R.id.email_sign_in_button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.sign_out_button) {
