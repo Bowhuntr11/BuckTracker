@@ -1,20 +1,16 @@
 package com.evilforge.bucktracker;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Locale;
 
-public class Bucks {
+public class Bucks implements Serializable{
 
     private String buckName;
     private boolean isShooter;
     private Long lastSeen;
     private String lastStand = "";
-    private String[] photos;
     private String defaultPhotoURL;
-    private HashMap<String, Long> bucksStands = null;
+    private HashMap<String, Long> bucksStands = new HashMap<>();
 
 
     public Bucks(String buckName, boolean isShooter, Long whenSeen, String standName, String defaultPhotoURL) {
@@ -59,14 +55,6 @@ public class Bucks {
 
     public void setLastStand(String lastStand) {
         this.lastStand = lastStand;
-    }
-
-    public String[] getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(String[] photos) {
-        this.photos = photos;
     }
 
     public String getDefaultPhotoURL() {

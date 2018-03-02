@@ -230,7 +230,11 @@ public class SignInActivity extends BaseActivity implements
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.email_create_account_button) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), mUsernameField.getText().toString());
+            if (!mUsernameField.getText().toString().isEmpty()) {
+                createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), mUsernameField.getText().toString());
+            } else {
+                Toast.makeText(this, "Need to enter a Username!", Toast.LENGTH_SHORT).show();
+            }
         } else if (i == R.id.email_sign_in_button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.sign_out_button) {

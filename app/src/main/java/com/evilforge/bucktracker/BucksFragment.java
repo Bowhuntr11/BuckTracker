@@ -67,8 +67,10 @@ public class BucksFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bucks clickedBuck = (Bucks) adapterView.getItemAtPosition(i);
-
+                Intent intent = new Intent(getActivity(), SelectedBuckActivity.class);
+                intent.putExtra("Bucks", clickedBuck);
                 Toast.makeText(getActivity(), "Buck Clicked:" + i, Toast.LENGTH_SHORT).show();
+                startActivity(intent);
             }
         });
     }

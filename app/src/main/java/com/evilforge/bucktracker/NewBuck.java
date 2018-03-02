@@ -43,7 +43,6 @@ public class NewBuck extends AppCompatActivity {
     Button uploadBuckPic;
     Button saveBuck;
 
-    String date_time = "";
     int mYear;
     int mMonth;
     int mDay;
@@ -52,7 +51,6 @@ public class NewBuck extends AppCompatActivity {
 
     Long dateSeen;
     String photoURL;
-    String stand;
 
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -96,21 +94,29 @@ public class NewBuck extends AppCompatActivity {
         saveBuck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isShooterSelected = isShooter.isChecked();
-                Calendar calendar = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
-                dateSeen = calendar.getTimeInMillis();
-                if (standSpinner.toString() == null) {
-                    String stand = standSpinner.toString();
-                } else {
-                    String stand = "Not selected";
-                }
-                String buckNames = buckName.toString();
-                FirebaseDatabase.getInstance().getReference("bucks")
-                        .child(buckNames)
-                        .setValue(new Bucks(buckName.toString(), isShooterSelected, dateSeen, stand, photoURL));
-                finish();
+                uploadImage();
             }
         });
+    }
+
+    private void saveBuck() {
+        boolean isShooterSelected = isShooter.isChecked();
+        Calendar calendar = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
+        dateSeen = calendar.getTimeInMillis();
+        String stand = "NotSetup";
+//                if (standSpinner.getSelectedItem().toString() != null) {
+//                    String stand = standSpinner.getSelectedItem().toString();
+//                } else {
+//                    String stand = "NotSelected";
+//                }
+        String buckNames = buckName.getText().toString();
+        FirebaseDatabase.getInstance().getReference("bucks")
+                .child(buckNames)
+                .setValue(new Bucks(buckNames, isShooterSelected, dateSeen, stand, photoURL));
+        mDatabase = FirebaseDatabase.getInstance().getReference("bucks")
+                .child(buckNames).child("pictures");
+        mDatabase.push().setValue(photoURL);
+        finish();
     }
 
     private void timePicker() {
@@ -173,7 +179,6 @@ public class NewBuck extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             filePath = data.getData();
-            uploadImage();
         }
     }
 
@@ -191,6 +196,7 @@ public class NewBuck extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             photoURL = taskSnapshot.getDownloadUrl().toString();
                             progressDialog.dismiss();
+                            saveBuck();
                             Toast.makeText(NewBuck.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -198,6 +204,7 @@ public class NewBuck extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
+                            finish();
                             Toast.makeText(NewBuck.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -212,3 +219,4 @@ public class NewBuck extends AppCompatActivity {
         }
     }
 }
+
