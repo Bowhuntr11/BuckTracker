@@ -50,6 +50,7 @@
     <string name="upload_picture">Upload Picture</string>
     <string name="save">Save</string>
     <string name="image">Image</string>
+    <string name="message">Message</string>
 
 
 </resources>

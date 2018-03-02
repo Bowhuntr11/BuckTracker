@@ -126,4 +126,15 @@ public class BucksFragment extends Fragment {
     interface OnFragmentInteractionListener {
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }

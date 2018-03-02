@@ -52,6 +52,7 @@ public class NewBuck extends AppCompatActivity {
 
     Long dateSeen;
     String photoURL;
+    String stand;
 
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -98,7 +99,11 @@ public class NewBuck extends AppCompatActivity {
                 boolean isShooterSelected = isShooter.isChecked();
                 Calendar calendar = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
                 dateSeen = calendar.getTimeInMillis();
-                String stand = standSpinner.toString();
+                if (standSpinner.toString() == null) {
+                    String stand = standSpinner.toString();
+                } else {
+                    String stand = "Not selected";
+                }
                 String buckNames = buckName.toString();
                 FirebaseDatabase.getInstance().getReference("bucks")
                         .child(buckNames)

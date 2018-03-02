@@ -68,7 +68,8 @@ public class ChatFragment extends Fragment {
         });
     }
 
-    private void displayChatMessages() {//Suppose you want to retrieve "chats" in your Firebase DB:
+    private void displayChatMessages() {
+        //Suppose you want to retrieve "chats" in your Firebase DB:
         Query query = FirebaseDatabase.getInstance().getReference().child("messages");
         //The error said the constructor expected FirebaseListOptions - here you create them:
         FirebaseListOptions<ChatMessage> options = new FirebaseListOptions.Builder<ChatMessage>()
@@ -129,5 +130,15 @@ public class ChatFragment extends Fragment {
     interface OnFragmentInteractionListener {
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }

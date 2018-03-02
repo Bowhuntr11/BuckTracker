@@ -11,7 +11,7 @@ public class Bucks {
     private String buckName;
     private boolean isShooter;
     private Long lastSeen;
-    private String lastStand;
+    private String lastStand = "";
     private String[] photos;
     private String defaultPhotoURL;
     private HashMap<String, Long> bucksStands = null;
