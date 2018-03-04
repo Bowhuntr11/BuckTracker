@@ -1,28 +1,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/text_margin"
+    android:paddingBottom="@dimen/text_margin">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/buck_name"
-        android:textStyle="normal|bold" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buck_name"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/last_seen" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buck_name"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:text="@string/bucks"/>
+
+    <TextView
+        android:id="@+id/last_seen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/buck_name"
         android:layout_marginTop="5dp"
-        android:id="@+id/isShooter_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="18sp" />
+        android:text="@string/last_seen"/>
+
+    <TextView
+        android:id="@+id/last_seen_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/last_seen"
+        android:layout_alignBottom="@+id/last_seen"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/last_seen"
+        android:text="@string/_0_0_0000" />
+
+    <ImageView
+        android:id="@+id/isShooter_check"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/last_seen_date"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/is_shooter"
+        android:src="@drawable/delete_icon" />
 </RelativeLayout>

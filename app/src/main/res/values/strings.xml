@@ -40,9 +40,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="write_a_message">Write a message...</string>
+    <string name="write_a_message">Write a message…</string>
     <string name="enter_username">Enter Username desired (if Registering)</string>
-    <string name="shooter_buck">Shooter Buck: %1$s</string>
+    <string name="shooter_buck">Shooter Buck </string>
     <string name="enter_buck_name">Buck Name</string>
     <string name="is_he_a_shooter">Is he a shooter?</string>
     <string name="date_seen">Date Seen</string>
@@ -52,6 +52,10 @@
     <string name="image">Image</string>
     <string name="message">Message</string>
     <string name="buck_name">Buck Name</string>
+    <string name="is_shooter">Is Shooter?</string>
+    <string name="last_seen">Last seen:</string>
+    <string name="shooter">Shooter</string>
+    <string name="_0_0_0000">0/0/0000</string>
 
 
 </resources>

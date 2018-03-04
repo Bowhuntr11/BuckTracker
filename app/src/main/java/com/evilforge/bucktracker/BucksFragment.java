@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -90,10 +92,18 @@ public class BucksFragment extends Fragment {
             protected void populateView(View v, Bucks buck, int position) {
                   // Get references to the views of buck_list.xml
                 TextView buckName = v.findViewById(R.id.buck_name);
-                TextView isBuckShooter = v.findViewById(R.id.isShooter_text);
-                TextView lastSeen = v.findViewById(R.id.last_seen);
+                TextView lastSeen = v.findViewById(R.id.last_seen_date);
+                ImageView isBuckShooterCheck = v.findViewById(R.id.isShooter_check);
 
-                isBuckShooter.setText(getString(R.string.shooter_buck,  String.valueOf(buck.isShooter())));
+                if (buck.isShooter()) {
+                    Picasso.with(getActivity())
+                            .load(R.drawable.checkmark)
+                            .into(isBuckShooterCheck);
+                } else {
+                    Picasso.with(getActivity())
+                            .load(R.drawable.delete_icon)
+                            .into(isBuckShooterCheck);
+                }
                 buckName.setText(buck.getBuckName());
 
                 // Format the date before showing it
