@@ -1,7 +1,6 @@
 package com.evilforge.bucktracker;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 public class Bucks implements Serializable{
 
@@ -10,7 +9,8 @@ public class Bucks implements Serializable{
     private Long lastSeen;
     private String lastStand = "";
     private String defaultPhotoURL;
-    private HashMap<String, Long> bucksStands = new HashMap<>();
+    private String newStand;
+    private Long newStandSeenTime;
 
 
     public Bucks(String buckName, boolean isShooter, Long whenSeen, String standName, String defaultPhotoURL) {
@@ -19,7 +19,6 @@ public class Bucks implements Serializable{
         this.defaultPhotoURL = defaultPhotoURL;
         this.lastSeen = whenSeen;
         this.lastStand = standName;
-        bucksStands.put(standName, whenSeen);
     }
 
     public Bucks() {
@@ -65,11 +64,19 @@ public class Bucks implements Serializable{
         this.defaultPhotoURL = defaultPhotoURL;
     }
 
-    public HashMap<String, Long> getBucksStands() {
-        return bucksStands;
+    public String getNewStand() {
+        return newStand;
     }
 
-    public void setBucksStands(HashMap<String, Long> bucksStands) {
-        this.bucksStands = bucksStands;
+    public void setNewStand(String newStand) {
+        this.newStand = newStand;
+    }
+
+    public Long getNewStandSeenTime() {
+        return newStandSeenTime;
+    }
+
+    public void setNewStandSeenTime(Long newStandSeenTime) {
+        this.newStandSeenTime = newStandSeenTime;
     }
 }

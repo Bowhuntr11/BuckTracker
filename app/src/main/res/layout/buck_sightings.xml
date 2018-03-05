@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/text_margin"
+    android:paddingBottom="@dimen/text_margin">
+
+    <TextView
+        android:id="@+id/stand_seen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:text="@string/stand_name"/>
+
+    <TextView
+        android:id="@+id/seen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/stand_seen"
+        android:layout_marginTop="5dp"
+        android:text="@string/seen"/>
+
+    <TextView
+        android:id="@+id/seen_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/seen"
+        android:layout_alignBottom="@+id/seen"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/seen"
+        android:text="@string/_0_0_0000" />
+
+</RelativeLayout>

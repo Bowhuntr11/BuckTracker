@@ -1,17 +1,21 @@
 package com.evilforge.bucktracker;
 
 
+import java.io.Serializable;
 
-import com.google.android.gms.location.places.Place;
-
-public class Stands {
+public class Stands implements Serializable {
 
     private String standName;
-    private Place standPlace;
+    private String latitude;
+    private String longitude;
 
-    public Stands(String standName, Place standPlace) {
+    public Stands(String standName, String latitude, String longitude) {
         this.standName = standName;
-        this.standPlace = standPlace;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Stands() {
     }
 
     public String getStandName() {
@@ -22,11 +26,19 @@ public class Stands {
         this.standName = standName;
     }
 
-    public Place getStandPlace() {
-        return standPlace;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setStandPlace(Place standPlace) {
-        this.standPlace = standPlace;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

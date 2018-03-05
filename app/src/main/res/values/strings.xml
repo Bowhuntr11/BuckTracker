@@ -56,6 +56,10 @@
     <string name="last_seen">Last seen:</string>
     <string name="shooter">Shooter</string>
     <string name="_0_0_0000">0/0/0000</string>
+    <string name="stand_name">Stand Name</string>
+    <string name="sightings">Sightings</string>
+    <string name="seen">Seen: </string>
+    <string name="stand_seen_at">Stand seen at</string>
 
 
 </resources>

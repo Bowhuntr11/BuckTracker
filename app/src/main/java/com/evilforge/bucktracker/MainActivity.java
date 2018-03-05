@@ -110,10 +110,4 @@ public class MainActivity extends AppCompatActivity implements ChatFragment.OnFr
             finish();
         }
     }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }

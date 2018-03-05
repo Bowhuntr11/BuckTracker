@@ -105,7 +105,7 @@ public class ChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         messageArea = view.findViewById(R.id.input);
         listOfMessages = view.findViewById(R.id.list_of_messages);
-        sendButton = view.findViewById(R.id.fab);
+        sendButton = view.findViewById(R.id.fab_bucks);
         Log.d("onCreateView", "onCreateView");
         return view;
     }

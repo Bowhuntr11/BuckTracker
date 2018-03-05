@@ -47,7 +47,7 @@ public class BucksFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bucks, container, false);
-        fab = view.findViewById(R.id.fab);
+        fab = view.findViewById(R.id.fab_bucks);
         buckList = view.findViewById(R.id.list_of_bucks);
         return view;
     }

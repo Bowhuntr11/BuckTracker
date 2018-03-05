@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -44,14 +45,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-public class NewBuck extends AppCompatActivity {
+public class NewBuckSighting extends AppCompatActivity {
 
-    EditText buckName;
-    CheckBox isShooter;
+    TextView buckName;
+    String buckNameString;
     Button datePicker;
     Spinner standSpinner;
-    Button uploadBuckPic;
     Button saveBuck;
+    Bucks buck;
+
+    Long dateSeen;
+    String stand;
 
     int mYear;
     int mMonth;
@@ -59,12 +63,6 @@ public class NewBuck extends AppCompatActivity {
     int mHour;
     int mMinute;
 
-    Long dateSeen;
-    String photoURL;
-    String stand;
-
-    private Uri filePath;
-    private final int PICK_IMAGE_REQUEST = 71;
 
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -72,22 +70,19 @@ public class NewBuck extends AppCompatActivity {
 
     final Calendar myCalendar = Calendar.getInstance();
 
-    Bitmap bitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_buck);
+        setContentView(R.layout.activity_new_buck_sighting);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         buckName = findViewById(R.id.buck_name);
-        isShooter = findViewById(R.id.shooter_checkbox);
         datePicker = findViewById(R.id.dateSeenButton);
         standSpinner = findViewById(R.id.standSpinner);
-        uploadBuckPic = findViewById(R.id.uploadBuckPic);
         saveBuck = findViewById(R.id.saveNewBuck);
 
         datePicker.setOnClickListener(new View.OnClickListener() {
@@ -97,12 +92,10 @@ public class NewBuck extends AppCompatActivity {
             }
         });
 
-        uploadBuckPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImage();
-            }
-        });
+        Intent intent = getIntent();
+        buck = (Bucks) intent.getSerializableExtra("Bucks");
+        buckNameString = buck.getBuckName();
+        buckName.setText(buckNameString);
 
         mDatabase.child("stands").addValueEventListener(new ValueEventListener() {
             @Override
@@ -123,7 +116,7 @@ public class NewBuck extends AppCompatActivity {
                     standNames.add(standName);
                 }
 
-                ArrayAdapter<String> areasAdapter = new ArrayAdapter<String>(NewBuck.this, android.R.layout.simple_spinner_item, standNames);
+                ArrayAdapter<String> areasAdapter = new ArrayAdapter<String>(NewBuckSighting.this, android.R.layout.simple_spinner_item, standNames);
                 areasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 standSpinner.setAdapter(areasAdapter);
             }
@@ -137,17 +130,12 @@ public class NewBuck extends AppCompatActivity {
         saveBuck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    uploadImage();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                saveBuck();
             }
         });
     }
 
     private void saveBuck() {
-        boolean isShooterSelected = isShooter.isChecked();
         Calendar calendar = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
         dateSeen = calendar.getTimeInMillis();
         if (standSpinner.getSelectedItem().toString() != null) {
@@ -155,13 +143,19 @@ public class NewBuck extends AppCompatActivity {
         } else {
             stand = "NotSelected";
         }
-        String buckNames = buckName.getText().toString();
+
+        if (dateSeen > buck.getLastSeen()) {
+            FirebaseDatabase.getInstance().getReference("bucks")
+                    .child(buckNameString)
+                    .child("lastSeen")
+                    .setValue(dateSeen);
+        }
+
         FirebaseDatabase.getInstance().getReference("bucks")
-                .child(buckNames)
-                .setValue(new Bucks(buckNames, isShooterSelected, dateSeen, stand, photoURL));
-        mDatabase = FirebaseDatabase.getInstance().getReference("bucks")
-                .child(buckNames).child("pictures");
-        mDatabase.push().setValue(photoURL);
+                .child(buckNameString)
+                .child("buckSightings")
+                .push()
+                .setValue(new BuckSighting(stand, dateSeen));
         finish();
     }
 
@@ -210,87 +204,6 @@ public class NewBuck extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
 
         datePicker.setText(sdf.format(myCalendar.getTime()));
-    }
-
-    private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
-            filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void uploadImage() throws IOException {
-
-        if (filePath != null) {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            Bitmap newBitMap = getResizedBitmap(bitmap);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            newBitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
-
-
-            StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
-
-            UploadTask uploadTask = ref.putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    finish();
-                    Toast.makeText(NewBuck.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    photoURL = taskSnapshot.getDownloadUrl().toString();
-                    progressDialog.dismiss();
-                    saveBuck();
-                    Toast.makeText(NewBuck.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                            .getTotalByteCount());
-                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                }
-            });
-        }
-    }
-
-    public Bitmap getResizedBitmap(Bitmap bitmap) {
-        final int maxSize = 960;
-        int outWidth;
-        int outHeight;
-        int inWidth = bitmap.getWidth();
-        int inHeight = bitmap.getHeight();
-        if (inWidth > inHeight) {
-            outWidth = maxSize;
-            outHeight = (inHeight * maxSize) / inWidth;
-        } else {
-            outHeight = maxSize;
-            outWidth = (inWidth * maxSize) / inHeight;
-        }
-
-        return Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
     }
 }
 
