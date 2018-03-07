@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +30,10 @@ import java.util.Locale;
 
 public class StandsFragment extends Fragment {
 
-    FloatingActionButton fab;
-    ListView standList;
+    private FloatingActionButton fab;
+    private ListView standList;
+    private Button addRanchBtn;
+    private ProgressBar progressBar;
     private FirebaseListAdapter<Stands> adapter;
 
     private StandsFragment.OnFragmentInteractionListener mListener;
@@ -48,7 +52,9 @@ public class StandsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stands, container, false);
         fab = view.findViewById(R.id.fab_stands);
+        addRanchBtn = view.findViewById(R.id.add_ranch_btn);
         standList = view.findViewById(R.id.list_of_stands);
+        progressBar = view.findViewById(R.id.stands_progress_bar);
         return view;
     }
 
@@ -75,6 +81,13 @@ public class StandsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        addRanchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), RanchMapsActivity.class));
+            }
+        });
     }
 
     private void displayStands(){
@@ -93,6 +106,12 @@ public class StandsFragment extends Fragment {
                 // Get references to the views of buck_list.xml
                 TextView standName = v.findViewById(R.id.stand_name);
                 standName.setText(stand.getStandName());
+            }
+
+            @Override
+            public void onDataChanged() {
+                super.onDataChanged();
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
             }
         };
 

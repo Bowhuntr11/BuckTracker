@@ -9,7 +9,23 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    <Button
+        android:id="@+id/add_ranch_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_ranch"
+        android:layout_centerHorizontal="true"/>
+
+    <ProgressBar
+        android:id="@+id/stands_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="100dp"
+        android:indeterminate="false"
+        android:visibility="visible" />
+
     <ListView
+        android:layout_below="@id/add_ranch_btn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="1dp"

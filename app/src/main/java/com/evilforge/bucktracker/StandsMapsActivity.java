@@ -16,22 +16,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class StandsMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap map;
-    Marker marker = null;
-    FloatingActionButton save_btn;
-
-    private LatLng standLoc;
+    private Marker marker = null;
+    private FloatingActionButton save_btn;
     private double latitude = 33;
     private double longitude = -100;
-
-    String standName;
+    private String standName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_stands_maps);
 
         Intent intent = getIntent();
         if(intent.hasExtra("standName")){
@@ -51,7 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MapsActivity.this, NewStand.class);
+                Intent intent = new Intent(StandsMapsActivity.this, NewStand.class);
                 intent.putExtra("longitude", String.valueOf(longitude));
                 intent.putExtra("latitude", String.valueOf(latitude));
                 intent.putExtra("standName", standName);

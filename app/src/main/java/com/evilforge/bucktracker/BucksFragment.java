@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +28,10 @@ import java.util.Locale;
 
 public class BucksFragment extends Fragment {
 
-    FloatingActionButton fab;
-    ListView buckList;
+    private FloatingActionButton fab;
+    private ListView buckList;
     private FirebaseListAdapter<Bucks> adapter;
+    private ProgressBar progressBar;
 
     private BucksFragment.OnFragmentInteractionListener mListener;
 
@@ -49,6 +51,7 @@ public class BucksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bucks, container, false);
         fab = view.findViewById(R.id.fab_bucks);
         buckList = view.findViewById(R.id.list_of_bucks);
+        progressBar = view.findViewById(R.id.bucks_progress_bar);
         return view;
     }
 
@@ -112,6 +115,12 @@ public class BucksFragment extends Fragment {
                 SimpleDateFormat df2 = new SimpleDateFormat("MMM d yyyy (HH:mm)", Locale.getDefault());
                 String dateText = df2.format(date);
                 lastSeen.setText(dateText);
+            }
+
+            @Override
+            public void onDataChanged() {
+                super.onDataChanged();
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
             }
         };
 

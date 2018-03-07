@@ -12,9 +12,9 @@ import com.squareup.picasso.Picasso;
 
 public class SelectedStandActivity extends AppCompatActivity {
 
-    TextView standNameView;
-    Stands stand;
-    String standName;
+    private TextView standNameView;
+    private Stands stand;
+    private String standName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

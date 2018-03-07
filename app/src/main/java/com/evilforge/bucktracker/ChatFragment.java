@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -24,9 +25,10 @@ import com.google.firebase.database.Query;
 public class ChatFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    ImageView sendButton;
-    EditText messageArea;
-    ListView listOfMessages;
+    private ImageView sendButton;
+    private EditText messageArea;
+    private ListView listOfMessages;
+    private ProgressBar progressBar;
     private FirebaseListAdapter<ChatMessage> adapter;
 
     private OnFragmentInteractionListener mListener;
@@ -93,6 +95,12 @@ public class ChatFragment extends Fragment {
                 messageTime.setText(DateFormat.format("MMM d yyyy (HH:mm:ss)",
                         model.getMessageTime()));
             }
+
+            @Override
+            public void onDataChanged() {
+                super.onDataChanged();
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
+            }
         };
 
         listOfMessages.setAdapter(adapter);
@@ -106,6 +114,7 @@ public class ChatFragment extends Fragment {
         messageArea = view.findViewById(R.id.input);
         listOfMessages = view.findViewById(R.id.list_of_messages);
         sendButton = view.findViewById(R.id.fab_bucks);
+        progressBar = view.findViewById(R.id.chat_progress_bar);
         Log.d("onCreateView", "onCreateView");
         return view;
     }

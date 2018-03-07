@@ -57,8 +57,11 @@
             android:name=".NewBuckSighting"
             android:label="" />
         <activity
-            android:name=".MapsActivity"
+            android:name=".StandsMapsActivity"
             android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".RanchMapsActivity"
+            android:label="@string/new_ranch" />
 
         <meta-data
             android:name="com.google.android.gms.version"

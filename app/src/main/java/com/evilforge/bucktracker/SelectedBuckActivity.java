@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
@@ -24,13 +26,14 @@ import java.util.Locale;
 
 public class SelectedBuckActivity extends AppCompatActivity {
 
-    ImageView defaultImage;
-    TextView buckNameView;
-    ListView buckSightings;
-    FloatingActionButton newSighting;
-    Bucks buck;
-    String buckName;
-    Long buckLastSeen;
+    private ImageView defaultImage;
+    private TextView buckNameView;
+    private ListView buckSightings;
+    private FloatingActionButton newSighting;
+    private Bucks buck;
+    private String buckName;
+    private Long buckLastSeen;
+    private ProgressBar progressBar;
     private FirebaseListAdapter<BuckSighting> adapter;
 
     @Override
@@ -42,14 +45,24 @@ public class SelectedBuckActivity extends AppCompatActivity {
         buckNameView = findViewById(R.id.selected_buck_name);
         buckSightings = findViewById(R.id.list_of_sightings);
         newSighting = findViewById(R.id.fab_buck_sighting);
+        progressBar = findViewById(R.id.buck_image_progress_bar);
 
         Intent intent = getIntent();
         buck = (Bucks) intent.getSerializableExtra("Bucks");
         String picUrl = buck.getDefaultPhotoURL();
         Picasso.with(this)
                 .load(picUrl)
-                .placeholder(R.drawable.loading)
-                .into(defaultImage);
+                .into(defaultImage, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(SelectedBuckActivity.this, "Error loading image", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         buckName = buck.getBuckName();
         buckLastSeen = buck.getLastSeen();

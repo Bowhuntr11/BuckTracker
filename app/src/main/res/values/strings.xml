@@ -62,6 +62,8 @@
     <string name="stand_seen_at">Stand seen at</string>
     <string name="select_location">Select Location</string>
     <string name="title_activity_maps">Map</string>
+    <string name="new_ranch">New Ranch</string>
+    <string name="add_ranch">Add Ranch</string>
 
 
 </resources>

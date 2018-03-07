@@ -46,12 +46,12 @@ import java.util.UUID;
 
 public class NewBuck extends AppCompatActivity {
 
-    EditText buckName;
-    CheckBox isShooter;
-    Button datePicker;
-    Spinner standSpinner;
-    Button uploadBuckPic;
-    Button saveBuck;
+    private EditText buckName;
+    private CheckBox isShooter;
+    private Button datePicker;
+    private Spinner standSpinner;
+    private Button uploadBuckPic;
+    private Button saveBuck;
 
     int mYear;
     int mMonth;
@@ -59,15 +59,15 @@ public class NewBuck extends AppCompatActivity {
     int mHour;
     int mMinute;
 
-    Long dateSeen;
-    String photoURL;
-    String stand;
+    private Long dateSeen;
+    private String photoURL;
+    private String stand;
 
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
 
-    FirebaseStorage storage;
-    StorageReference storageReference;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
     private DatabaseReference mDatabase;
 
     final Calendar myCalendar = Calendar.getInstance();

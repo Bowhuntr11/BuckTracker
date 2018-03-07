@@ -47,25 +47,25 @@ import java.util.UUID;
 
 public class NewBuckSighting extends AppCompatActivity {
 
-    TextView buckName;
-    String buckNameString;
-    Button datePicker;
-    Spinner standSpinner;
-    Button saveBuck;
-    Bucks buck;
+    private TextView buckName;
+    private String buckNameString;
+    private Button datePicker;
+    private Spinner standSpinner;
+    private Button saveBuck;
+    private Bucks buck;
 
-    Long dateSeen;
-    String stand;
+    private Long dateSeen;
+    private String stand;
 
-    int mYear;
-    int mMonth;
-    int mDay;
-    int mHour;
-    int mMinute;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+    private int mHour;
+    private int mMinute;
 
 
-    FirebaseStorage storage;
-    StorageReference storageReference;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
     private DatabaseReference mDatabase;
 
     final Calendar myCalendar = Calendar.getInstance();
