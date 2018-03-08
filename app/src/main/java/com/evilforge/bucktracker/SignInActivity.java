@@ -16,6 +16,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignInActivity extends BaseActivity implements
         View.OnClickListener {
@@ -31,6 +33,9 @@ public class SignInActivity extends BaseActivity implements
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
+
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference ref = database.getReference("Users");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +93,7 @@ public class SignInActivity extends BaseActivity implements
                                     .build();
                             if (user != null) {
                                 user.updateProfile(profileUpdates);
+//                                ref.push().setValue(user.getUid());
                             }
                             Log.d(TAG, "createUserWithEmail:success");
                             updateUI(user);

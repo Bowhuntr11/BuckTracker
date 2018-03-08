@@ -10,12 +10,21 @@
         tools:context="com.evilforge.bucktracker.StandsMapsActivity" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_save_ranch"
+    android:id="@+id/fab_save_ranch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentEnd="true"
+    android:layout_margin="@dimen/fab_margin"
+    android:src="@android:drawable/ic_input_add" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_delete_last_marker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@android:drawable/ic_delete" />
 
 </RelativeLayout>
