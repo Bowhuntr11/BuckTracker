@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,8 +31,8 @@ public class StandsMapsActivity extends AppCompatActivity implements OnMapReadyC
     private String ranchKey;
     private Marker marker = null;
     private FloatingActionButton save_btn;
-    private double latitude = 33;
-    private double longitude = -100;
+    private double latitude = 0;
+    private double longitude = 0;
     private String standName;
 
     private double topRightLatitude;
@@ -52,49 +53,6 @@ public class StandsMapsActivity extends AppCompatActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stands_maps);
-
-
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-
-        refUsers = refUsers.child(currentUser.getUid());
-
-        refUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    ranchKey = (String) postSnapshot.getValue();
-                    refRanch = refRanch.child(ranchKey);
-                    Log.d("StandMaps", ranchKey);
-                    
-                    refRanch.child(ranchKey).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (ranch == null) {
-                                ranch = dataSnapshot.getValue(Ranch.class);
-                                assert ranch != null;
-                                Log.d("StandsMaps", ranch.toString());
-                                bottomLeftLatitude = ranch.getBottomLeftLatitude();
-                                bottomLeftLongitude = ranch.getBottomLeftLongitude();
-                                topRightLatitude = ranch.getTopRightLatitude();
-                                topRightLongitude = ranch.getTopRightLongitude();
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-            }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         Intent intent = getIntent();
         if (intent.hasExtra("standName")) {
@@ -124,24 +82,74 @@ public class StandsMapsActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        refUsers = refUsers.child(currentUser.getUid());
+
+        refUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    ranchKey = (String) postSnapshot.getValue();
+                    refRanch = refRanch.child(ranchKey);
+                    Log.d("StandsMapsRanchKey", ranchKey);
+
+                    refRanch.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.d("StandsMapsHasChildren", String.valueOf(dataSnapshot.hasChildren()));
+                            Log.d("StandsMapsHasChild", String.valueOf(dataSnapshot.hasChild("bottomLeftLatitude")));
+
+                            if (dataSnapshot.hasChild("bottomLeftLatitude")) {
+                                bottomLeftLatitude = dataSnapshot.child("bottomLeftLatitude").getValue(double.class);
+                                bottomLeftLongitude = dataSnapshot.child("bottomLeftLongitude").getValue(double.class);
+                                topRightLatitude = dataSnapshot.child("topRightLatitude").getValue(double.class);
+                                topRightLongitude = dataSnapshot.child("topRightLongitude").getValue(double.class);
+                                Log.d("StandsMapsLatLongUpdate", String.valueOf(bottomLeftLatitude));
+                                mapLoad(googleMap);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void mapLoad(GoogleMap googleMap) {
         map = googleMap;
         LatLng startLocation = new LatLng(latitude, longitude);
-        MarkerOptions options = new MarkerOptions()
-                .position(startLocation)
-                .draggable(true)
-                .title("Stand Location");
+        LatLngBounds bounds;
+        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        map.moveCamera(CameraUpdateFactory.newLatLng(startLocation));
 
-
-        map.addMarker(options);
         if (bottomLeftLatitude != 0) {
-            LatLngBounds Ranch = new LatLngBounds(new LatLng(topRightLatitude, topRightLongitude), new LatLng(bottomLeftLatitude, bottomLeftLongitude));
-            map.moveCamera(CameraUpdateFactory.newLatLngBounds(Ranch, 0));
+            Log.d("StandsMapsOnMapReady1", String.valueOf(bottomLeftLatitude));
+            Log.d("StandsMapsOnMapReady1", String.valueOf(bottomLeftLongitude));
+            Log.d("StandsMapsOnMapReady1", String.valueOf(topRightLatitude));
+            Log.d("StandsMapsOnMapReady1", String.valueOf(topRightLongitude));
+
+            LatLng bottomLeft = new LatLng(bottomLeftLatitude, bottomLeftLongitude);
+            LatLng topRight = new LatLng(topRightLatitude, topRightLongitude);
+            bounds = LatLngBounds.builder().include(bottomLeft).include(topRight).build();
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 5);
+            map.animateCamera(cu);
         } else {
+            Log.d("StandsMapsOnMapReady2", String.valueOf(bottomLeftLatitude));
             map.moveCamera(CameraUpdateFactory.newLatLng(startLocation));
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 12));
         }
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -162,6 +170,5 @@ public class StandsMapsActivity extends AppCompatActivity implements OnMapReadyC
                 Log.d("Longitude", String.valueOf(longitude));
             }
         });
-
     }
 }
